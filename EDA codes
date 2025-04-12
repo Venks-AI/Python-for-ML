@@ -1,0 +1,30 @@
+def histogram_boxplot(data, feature, figsize=(15, 10), kde=False, bins=None):
+    """
+    Boxplot and histogram combined
+
+    data: dataframe
+    feature: dataframe column
+    figsize: size of figure (default (15,10))
+    kde: whether to show the density curve (default False)
+    bins: number of bins for histogram (default None)
+    """
+    f2, (ax_box2, ax_hist2) = plt.subplots(
+        nrows=2,  # Number of rows of the subplot grid= 2
+        sharex=True,  # x-axis will be shared among all subplots
+        gridspec_kw={"height_ratios": (0.25, 0.75)},
+        figsize=figsize,
+    )  # creating the 2 subplots
+    sns.boxplot(
+        data=data, x=feature, ax=ax_box2, showmeans=True, color="violet"
+    )  # boxplot will be created and a triangle will indicate the mean value of the column
+    sns.histplot(
+        data=data, x=feature, kde=kde, ax=ax_hist2, bins=bins
+    ) if bins else sns.histplot(
+        data=data, x=feature, kde=kde, ax=ax_hist2
+    )  # For histogram
+    ax_hist2.axvline(
+        data[feature].mean(), color="green", linestyle="--"
+    )  # Add mean to the histogram
+    ax_hist2.axvline(
+        data[feature].median(), color="black", linestyle="-"
+    )  # Add median to the histogram
